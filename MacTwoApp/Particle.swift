@@ -36,29 +36,29 @@ class Particle {
     /// 加速度
     private(set) var acceleration: Components
     /// 外界环境 力
-    private var forces:[Components] = [Components]()
+    var forces:[Components] = [Components]()
     /// 经历历史
     private(set) var history = [HistoryData]()
     
     
-    init(){
-        massm = 1
-        location = Components(x:0 , y:0 ,z:0)
-        velocity = Components(x:10 , y:0 ,z:0)
-        acceleration = Components(x:0 , y:0 ,z:0)
-        forces.append(Components(x: 0, y: 2, z: 0))
-        
+    init(massm: Double,location: Components,velocity: Components){
+        self.massm = massm
+        self.location = location
+        self.velocity = velocity
+        self.acceleration = Components(x:0 , y:0 ,z:0)
+        history.append(HistoryData(time: 0, location: location, velocity: velocity, acceleration: acceleration))
     }
     
     /// 质点演进 step：时间步进
     public func evolution(step: Double){
-            self.computeAcceleration()
-            self.computeVelocity(step)
-            self.computeLocation(step)
-            // 记录历史
-            self.addHistory()
-            // 时间推移
-            self.time += step
+        // 时间推移
+        self.time += step
+        self.computeAcceleration()
+        self.computeVelocity(step)
+        self.computeLocation(step)
+        // 记录历史
+        self.addHistory()
+          
     }
     
     /// 计算这个时刻的加速度
@@ -96,9 +96,9 @@ class Particle {
     private func addHistory(){
         let newData = HistoryData(time: self.time, location: self.location, velocity: self.velocity, acceleration: self.acceleration)
         // 如果出现资源竞争可使用主列队
-        //DispatchQueue.main.async {
+        DispatchQueue.main.async {
             self.history.append(newData)
-        //}
+        }
         
     }
 

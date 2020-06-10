@@ -24,7 +24,6 @@
 		797190D12487E22400389494 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		797190D42487E22400389494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		797190D62487E22400389494 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		797190D72487E22400389494 /* MacTwoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacTwoApp.entitlements; sourceTree = "<group>"; };
 		797190DD2487E26A00389494 /* Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Physics.swift; sourceTree = "<group>"; };
 		798137DD248FC93A0005A3BC /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		79A3DCD024887A220084984D /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
@@ -70,7 +69,6 @@
 				797190DD2487E26A00389494 /* Physics.swift */,
 				79A3DCD024887A220084984D /* Particle.swift */,
 				797190D62487E22400389494 /* Info.plist */,
-				797190D72487E22400389494 /* MacTwoApp.entitlements */,
 			);
 			path = MacTwoApp;
 			sourceTree = "<group>";

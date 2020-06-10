@@ -22,7 +22,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         mainView.physics = self.physics
-        mainView.image = NSImage(size: NSMakeSize(mainView.bounds.width, mainView.bounds.height))
+        //mainView.image = NSImage(size: NSMakeSize(mainView.bounds.width, mainView.bounds.height))
     }
 
     override var representedObject: Any? {
@@ -33,9 +33,10 @@ class ViewController: NSViewController {
     /// 开始演进
     @IBAction func OnPlay(_ sender: Any) {
         physics.delegate = self
+        physics.setParameter()
         physics.run()
         gcdTimer = DispatchSource.makeTimerSource()
-        gcdTimer?.schedule(deadline: .now(), repeating: 0.01)
+        gcdTimer?.schedule(deadline: .now(), repeating: 0.1)
         gcdTimer?.setEventHandler(handler: OnTimer)      
     }
     @IBAction func OnSave(_ sender: Any){
@@ -55,7 +56,7 @@ class ViewController: NSViewController {
    
     /// 动画定时器回调
     func OnTimer(){
-        if (physics.particle.history.count - mainView.nowTime < 30){
+        if (physics.particles[0].history.count - mainView.nowTime < 30){
             physics.run()
         }
         DispatchQueue.main.async {

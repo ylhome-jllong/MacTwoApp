@@ -20,18 +20,36 @@ struct Components {
 class Physics{
     
     /// 研究对象
-    private(set) var particle = Particle()
+    private(set) var particles = [Particle]()
     /// 委托代理
     var delegate: NotifyProtocol?
     
     let gcdQueue = DispatchQueue.init(label: "演进列队")
+    
+    /// 设置各物理参数
+    func setParameter(){
+        let particle = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: 10, y: 0, z: 0))
+        particle.forces.append(Components(x: 0, y: -10, z: 0))
+        particles.append(particle)
+        let particle1 = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: -10, y: 0, z: 0))
+        particle1.forces.append(Components(x: 0, y: -10, z: 0))
+        particles.append(particle1)
+        let particle2 = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: -10, y: 0, z: 0))
+        particle2.forces.append(Components(x: 0, y: 10, z: 0))
+        particles.append(particle2)
+        let particle3 = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: 10, y: 0, z: 0))
+        particle3.forces.append(Components(x: 0, y: 10, z: 0))
+        particles.append(particle3)
+    }
     
     
     /// 开始运行（异步运行）
     func run(){
         gcdQueue.async {
             for _ in 0...100{
-                self.particle.evolution(step: 0.1)
+                for particle in self.particles{
+                    particle.evolution(step: 0.1)
+                }
             }
             DispatchQueue.main.async {
                 self.delegate?.complete()
