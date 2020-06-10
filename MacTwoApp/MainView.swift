@@ -15,6 +15,7 @@ class MainView: NSView {
     
     /// 用来绘制轨迹
     private var path = NSBezierPath()
+    private var pathO = NSBezierPath()
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -26,20 +27,24 @@ class MainView: NSView {
         // 绘制坐标
         self.coordinate()
         // 绘制轨迹
-        path.stroke()
-        //image?.draw(in: dirtyRect)
+        //path.stroke()
+        NSColor.red.setFill()
+        // 绘制对象
+        pathO.fill()
     }
     
     /// 绘制新轨迹并刷新
     func drawImage(){
         var flag = false
         if (nowTime < 1){return}
+        pathO.removeAllPoints()
         for particle in physics!.particles{
             let point1 = convert(NSPoint(x: particle.history[nowTime-1].location.x, y: particle.history[nowTime-1].location.y))
             let point2 = convert(NSPoint(x: particle.history[nowTime].location.x, y: particle.history[nowTime].location.y))
             if (point1 != nil && point2 != nil){
                 path.move(to: point1!)
                 path.line(to: point2!)
+                pathO.appendOval(in: NSMakeRect(point2!.x-5, point2!.y-5, 10, 10))
                 flag = true
             }
         }
@@ -50,7 +55,8 @@ class MainView: NSView {
     
     /// 重新绘制之前的图像
     func drawNewAllImage(){
-        path = NSBezierPath()
+        path.removeAllPoints()
+        pathO.removeAllPoints()
         if(nowTime < 1){return}
         for i in 1...nowTime{
             for particle in physics!.particles{

@@ -28,17 +28,13 @@ class Physics{
     
     /// 设置各物理参数
     func setParameter(){
-        let particle = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: 10, y: 0, z: 0))
-        particle.forces.append(Components(x: 0, y: -10, z: 0))
+        let particle = Particle(massm: 1, location: Components(x: 50, y: 0, z: 0), velocity: Components(x: 0, y: 10, z: 0))
         particles.append(particle)
-        let particle1 = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: -10, y: 0, z: 0))
-        particle1.forces.append(Components(x: 0, y: -10, z: 0))
+        let particle1 = Particle(massm: 1, location: Components(x: -50, y: 0, z: 0), velocity: Components(x: 0, y: -10, z: 0))
         particles.append(particle1)
-        let particle2 = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: -10, y: 0, z: 0))
-        particle2.forces.append(Components(x: 0, y: 10, z: 0))
+        let particle2 = Particle(massm: 30, location: Components(x: 0, y: 50, z: 0), velocity: Components(x: -50, y: 0, z: 0))
         particles.append(particle2)
-        let particle3 = Particle(massm: 1, location: Components(x: 0, y: 0, z: 0), velocity: Components(x: 10, y: 0, z: 0))
-        particle3.forces.append(Components(x: 0, y: 10, z: 0))
+        let particle3 = Particle(massm: 30, location: Components(x: 0, y: -50, z: 0), velocity: Components(x: 50, y: 0, z: 0))
         particles.append(particle3)
     }
     
@@ -47,6 +43,7 @@ class Physics{
     func run(){
         gcdQueue.async {
             for _ in 0...100{
+                self.interreaction()
                 for particle in self.particles{
                     particle.evolution(step: 0.1)
                 }
@@ -57,6 +54,7 @@ class Physics{
         }
         
     }
+    
     /// 记录数据
     func stop(){
     }
@@ -64,5 +62,26 @@ class Physics{
     func save(to path: URL){
         
     }
-
+    /// 计算相互作用
+    private func interreaction(){
+        if(particles.count<2){return}
+        for particle in particles {
+            particle.forces.removeAll()
+        }
+        for i in 0..<particles.count{
+            for j in i+1..<particles.count {
+                let x = particles[i].location.x - particles[j].location.x
+                let y = particles[i].location.y - particles[j].location.y
+                let z = particles[i].location.z - particles[j].location.z
+                let r = sqrt(x*x + y*y + z*z)
+                if (r == 0) {break}
+                let f = particles[i].massm * particles[j].massm / r*r
+                let fx = f * x / r
+                let fy = f * y / r
+                let fz = f * z / r
+                particles[i].forces.append(Components(x: -fx, y: -fy, z: -fz))
+                particles[j].forces.append(Components(x: fx, y: fy, z: fz))
+            }
+        }
+    }
 }

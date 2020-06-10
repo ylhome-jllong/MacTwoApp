@@ -28,6 +28,7 @@
 		798137DD248FC93A0005A3BC /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		79A3DCD024887A220084984D /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		79A55C8B248915A2007CBF32 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		79B16E032490E05A00B883C0 /* MacTwoApp.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = MacTwoApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +70,7 @@
 				797190DD2487E26A00389494 /* Physics.swift */,
 				79A3DCD024887A220084984D /* Particle.swift */,
 				797190D62487E22400389494 /* Info.plist */,
+				79B16E032490E05A00B883C0 /* MacTwoApp.entitlements */,
 			);
 			path = MacTwoApp;
 			sourceTree = "<group>";
