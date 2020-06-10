@@ -12,7 +12,9 @@ class MainView: NSView {
 
     var physics: Physics?
     var nowTime = 0
-    var image: NSImage?
+    
+    /// 用来绘制轨迹
+    private var path = NSBezierPath()
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -24,59 +26,44 @@ class MainView: NSView {
         // 绘制坐标
         self.coordinate()
         // 绘制轨迹
-        image?.draw(in: dirtyRect)
+        path.stroke()
+        //image?.draw(in: dirtyRect)
     }
     
     /// 绘制新轨迹并刷新
     func drawImage(){
-        if (image != nil){
-            var flag = false
-            let path = NSBezierPath()
-            if (nowTime < 1){return}
-            for particle in physics!.particles{
-                let point1 = convert(NSPoint(x: particle.history[nowTime-1].location.x, y: particle.history[nowTime-1].location.y))
-                let point2 = convert(NSPoint(x: particle.history[nowTime].location.x, y: particle.history[nowTime].location.y))
-                if (point1 != nil && point2 != nil){
-                    path.move(to: point1!)
-                    path.line(to: point2!)
-                    flag = true
-                }
+        var flag = false
+        if (nowTime < 1){return}
+        for particle in physics!.particles{
+            let point1 = convert(NSPoint(x: particle.history[nowTime-1].location.x, y: particle.history[nowTime-1].location.y))
+            let point2 = convert(NSPoint(x: particle.history[nowTime].location.x, y: particle.history[nowTime].location.y))
+            if (point1 != nil && point2 != nil){
+                path.move(to: point1!)
+                path.line(to: point2!)
+                flag = true
             }
-            if(flag){
-                path.lineWidth = 1
-                image?.lockFocus()
-                NSColor.black.setStroke()
-                path.stroke()
-                image?.unlockFocus()
-                needsDisplay = true
-            }
+        }
+        if(flag){
+            needsDisplay = true
         }
     }
     
     /// 重新绘制之前的图像
     func drawNewAllImage(){
-        if (image != nil) {
-            let path = NSBezierPath()
-            if(nowTime < 1){return}
-            for i in 1...nowTime{
-                for particle in physics!.particles{
-                    let point1 = convert(NSPoint(x: particle.history[i-1].location.x, y: particle.history[i-1].location.y))
-                    let point2 = convert(NSPoint(x: particle.history[i].location.x, y: particle.history[i].location.y))
-                    if (point1 != nil && point2 != nil)
-                    {
-                        path.move(to: point1!)
-                        path.line(to: point2!)
-                        
-                    }
+        path = NSBezierPath()
+        if(nowTime < 1){return}
+        for i in 1...nowTime{
+            for particle in physics!.particles{
+                let point1 = convert(NSPoint(x: particle.history[i-1].location.x, y: particle.history[i-1].location.y))
+                let point2 = convert(NSPoint(x: particle.history[i].location.x, y: particle.history[i].location.y))
+                if (point1 != nil && point2 != nil)
+                {
+                    path.move(to: point1!)
+                    path.line(to: point2!)
                 }
             }
-            image?.lockFocus()
-            NSColor.black.setStroke()
-            path.lineWidth = 1
-            path.stroke()
-            image?.unlockFocus()
-            needsDisplay = true
         }
+        needsDisplay = true
     }
     
     /// 坐标转换
@@ -93,13 +80,13 @@ class MainView: NSView {
     }
     /// 绘制坐标系
     private func coordinate(){
-        let path = NSBezierPath()
+        let coordinatePath = NSBezierPath()
         NSColor.gray.setStroke()
-        path.move(to: NSMakePoint(0,bounds.height/2))
-        path.line(to: NSMakePoint(bounds.width,bounds.height/2))
-        path.move(to: NSMakePoint(bounds.width/2,0))
-        path.line(to: NSMakePoint(bounds.width/2,bounds.height))
-        path.stroke()
+        coordinatePath.move(to: NSMakePoint(0,bounds.height/2))
+        coordinatePath.line(to: NSMakePoint(bounds.width,bounds.height/2))
+        coordinatePath.move(to: NSMakePoint(bounds.width/2,0))
+        coordinatePath.line(to: NSMakePoint(bounds.width/2,bounds.height))
+        coordinatePath.stroke()
     }
     
 }

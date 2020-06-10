@@ -36,7 +36,7 @@ class ViewController: NSViewController {
         physics.setParameter()
         physics.run()
         gcdTimer = DispatchSource.makeTimerSource()
-        gcdTimer?.schedule(deadline: .now(), repeating: 0.1)
+        gcdTimer?.schedule(deadline: .now(), repeating: 0.01)
         gcdTimer?.setEventHandler(handler: OnTimer)      
     }
     @IBAction func OnSave(_ sender: Any){
@@ -66,7 +66,6 @@ class ViewController: NSViewController {
     }
     /// 视图布局改变
     override func viewWillLayout() {
-        mainView.image = NSImage(size: NSMakeSize(mainView.bounds.width, mainView.bounds.height))
         gcdTimer?.suspend()
         mainView.drawNewAllImage()
         gcdTimer?.resume()
