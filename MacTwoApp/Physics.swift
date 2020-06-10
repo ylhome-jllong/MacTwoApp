@@ -26,8 +26,13 @@ class Physics{
     
     let gcdQueue = DispatchQueue.init(label: "演进列队")
     
+    
+    
     /// 设置各物理参数
     func setParameter(){
+        // 删除原来的所有质点为了重新开始
+       
+        particles.removeAll()
         let particle = Particle(massm: 1, location: Components(x: 50, y: 0, z: 0), velocity: Components(x: 0, y: 10, z: 0))
         particles.append(particle)
         let particle1 = Particle(massm: 1, location: Components(x: -50, y: 0, z: 0), velocity: Components(x: 0, y: -10, z: 0))
@@ -74,7 +79,7 @@ class Physics{
                 let y = particles[i].location.y - particles[j].location.y
                 let z = particles[i].location.z - particles[j].location.z
                 let r = sqrt(x*x + y*y + z*z)
-                if (r == 0) {break}
+                if (r == 0) {print("r=0");break}
                 let f = particles[i].massm * particles[j].massm / r*r
                 let fx = f * x / r
                 let fy = f * y / r

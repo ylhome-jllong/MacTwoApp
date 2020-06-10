@@ -15,6 +15,7 @@ class MainView: NSView {
     
     /// 用来绘制轨迹
     private var path = NSBezierPath()
+    /// 用来绘制质点
     private var pathO = NSBezierPath()
     
     override func draw(_ dirtyRect: NSRect) {
@@ -27,7 +28,7 @@ class MainView: NSView {
         // 绘制坐标
         self.coordinate()
         // 绘制轨迹
-        //path.stroke()
+        path.stroke()
         NSColor.red.setFill()
         // 绘制对象
         pathO.fill()
@@ -35,8 +36,16 @@ class MainView: NSView {
     
     /// 绘制新轨迹并刷新
     func drawImage(){
+        // 是否更新标志（提高效率）
         var flag = false
+        // 提高稳定性
         if (nowTime < 1){return}
+        if (nowTime >= physics!.particles[0].history.count){return}
+        // 删除之前的轨迹
+        if (nowTime % 500 == 0 ){
+            path.removeAllPoints()
+            
+        }
         pathO.removeAllPoints()
         for particle in physics!.particles{
             let point1 = convert(NSPoint(x: particle.history[nowTime-1].location.x, y: particle.history[nowTime-1].location.y))
@@ -57,18 +66,18 @@ class MainView: NSView {
     func drawNewAllImage(){
         path.removeAllPoints()
         pathO.removeAllPoints()
-        if(nowTime < 1){return}
-        for i in 1...nowTime{
-            for particle in physics!.particles{
-                let point1 = convert(NSPoint(x: particle.history[i-1].location.x, y: particle.history[i-1].location.y))
-                let point2 = convert(NSPoint(x: particle.history[i].location.x, y: particle.history[i].location.y))
-                if (point1 != nil && point2 != nil)
-                {
-                    path.move(to: point1!)
-                    path.line(to: point2!)
-                }
-            }
-        }
+//        if(nowTime < 1){return}
+//        for i in 1...nowTime{
+//            for particle in physics!.particles{
+//                let point1 = convert(NSPoint(x: particle.history[i-1].location.x, y: particle.history[i-1].location.y))
+//                let point2 = convert(NSPoint(x: particle.history[i].location.x, y: particle.history[i].location.y))
+//                if (point1 != nil && point2 != nil)
+//                {
+//                    path.move(to: point1!)
+//                    path.line(to: point2!)
+//                }
+//            }
+//        }
         needsDisplay = true
     }
     

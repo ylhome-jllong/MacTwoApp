@@ -32,12 +32,20 @@ class ViewController: NSViewController {
     }
     /// 开始演进
     @IBAction func OnPlay(_ sender: Any) {
+        if (gcdTimer != nil){
+            gcdTimer?.cancel()
+            gcdTimer = nil
+            timerState = false
+        }
+        
         physics.delegate = self
         physics.setParameter()
         physics.run()
+
+        mainView.drawNewAllImage()
         gcdTimer = DispatchSource.makeTimerSource()
-        gcdTimer?.schedule(deadline: .now(), repeating: 0.01)
-        gcdTimer?.setEventHandler(handler: OnTimer)      
+        gcdTimer?.schedule(deadline: .now(), repeating: 0.02)
+        gcdTimer?.setEventHandler(handler: OnTimer)
     }
     @IBAction func OnSave(_ sender: Any){
         let savePanel = NSSavePanel()
