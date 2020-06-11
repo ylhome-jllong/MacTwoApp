@@ -12,6 +12,7 @@ class MainView: NSView {
 
     var physics: Physics?
     var nowTime = 0
+    private var image: NSImage?
     
     /// 用来绘制轨迹
     private var path = NSBezierPath()
@@ -27,6 +28,10 @@ class MainView: NSView {
         
         // 绘制坐标
         self.coordinate()
+        
+        // 画旧轨迹
+        image?.draw(in: dirtyRect)
+        
         // 绘制轨迹
         NSColor.black.setStroke()
         path.stroke()
@@ -42,10 +47,10 @@ class MainView: NSView {
         // 提高稳定性
         if (nowTime < 1){return}
         if (nowTime >= physics!.particles[0].history.count){return}
-        // 删除之前的轨迹
-        if (nowTime % 500 == 0 ){
+        //  存档之前的轨迹
+        if (nowTime % 100 == 0 ){
+            self.drawOldImage()
             path.removeAllPoints()
-            
         }
         pathO.removeAllPoints()
         for particle in physics!.particles{
@@ -65,22 +70,39 @@ class MainView: NSView {
     
     /// 重新绘制之前的图像
     func drawNewAllImage(){
-        path.removeAllPoints()
-        pathO.removeAllPoints()
-//        if(nowTime < 1){return}
-//        for i in 1...nowTime{
-//            for particle in physics!.particles{
-//                let point1 = convert(NSPoint(x: particle.history[i-1].location.x, y: particle.history[i-1].location.y))
-//                let point2 = convert(NSPoint(x: particle.history[i].location.x, y: particle.history[i].location.y))
-//                if (point1 != nil && point2 != nil)
-//                {
-//                    path.move(to: point1!)
-//                    path.line(to: point2!)
-//                }
-//            }
-//        }
-        needsDisplay = true
+        var min = 1
+        self.path.removeAllPoints()
+        self.pathO.removeAllPoints()
+        if(self.nowTime < 1){return}
+        // 丢弃过去太多的轨迹保留最近的500步
+        if( self.nowTime > 501 ){min = nowTime - 501 }
+        for i in min...self.nowTime{
+            for particle in self.physics!.particles{
+                let point1 = self.convert(NSPoint(x: particle.history[i-1].location.x, y: particle.history[i-1].location.y))
+                let point2 = self.convert(NSPoint(x: particle.history[i].location.x, y: particle.history[i].location.y))
+                if (point1 != nil && point2 != nil)
+                {
+                    self.path.move(to: point1!)
+                    self.path.line(to: point2!)
+                }
+            }
+        }
+        self.image = nil
+        self.drawOldImage()
     }
+    
+    /// 将旧轨迹存图
+    private func drawOldImage(){
+        if (image == nil){image = NSImage(size: bounds.size)}
+        image?.lockFocus()
+        NSColor.black.setStroke()
+        path.stroke()
+        image?.unlockFocus()
+    }
+    
+    
+    
+    
     
     /// 坐标转换
     private func convert(_ point: CGPoint)->CGPoint?{
