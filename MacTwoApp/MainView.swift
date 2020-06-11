@@ -28,6 +28,7 @@ class MainView: NSView {
         // 绘制坐标
         self.coordinate()
         // 绘制轨迹
+        NSColor.black.setStroke()
         path.stroke()
         NSColor.red.setFill()
         // 绘制对象
