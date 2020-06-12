@@ -13,7 +13,7 @@ class Particle {
     
     
     /// 历史记录数据结构
-    struct HistoryData {
+    struct HistoryData: Codable {
         /// 时间
         var time: Double
         /// 位置
@@ -24,7 +24,8 @@ class Particle {
         var acceleration: Components
     }
     
-    
+    /// 粒子名称
+    var name: String
     /// 时间
     private(set) var time: Double = 0
     /// 质量
@@ -41,7 +42,8 @@ class Particle {
     private(set) var history = [HistoryData]()
     
     
-    init(massm: Double,location: Components,velocity: Components){
+    init(name: String,massm: Double,location: Components,velocity: Components){
+        self.name = name 
         self.massm = massm
         self.location = location
         self.velocity = velocity
