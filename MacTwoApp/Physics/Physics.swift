@@ -29,18 +29,21 @@ class Physics{
     
     
     /// 设置各物理参数
-    func setParameter(){
+    func setParameter(_ particles: [Particle]){
         // 删除原来的所有质点为了重新开始
        
-        particles.removeAll()
-        let particle = Particle(name: "name_0",massm: 1, location: Components(x: 50, y: 0, z: 0), velocity: Components(x: 0, y: 10, z: 0))
-        particles.append(particle)
-        let particle1 = Particle(name: "name_1",massm: 1, location: Components(x: -50, y: 0, z: 0), velocity: Components(x: 0, y: -10, z: 0))
-        particles.append(particle1)
-        let particle2 = Particle(name: "name_2",massm: 30, location: Components(x: 0, y: 50, z: 0), velocity: Components(x: -50, y: 0, z: 0))
-        particles.append(particle2)
-        let particle3 = Particle(name: "name_3",massm: 30, location: Components(x: 0, y: -50, z: 0), velocity: Components(x: 50, y: 0, z: 0))
-        particles.append(particle3)
+        self.particles.removeAll()
+        for particle in particles{
+            self.particles.append(particle)
+        }
+//        let particle = Particle(name: "name_0",massm: 1, location: Components(x: 50, y: 0, z: 0), velocity: Components(x: 0, y: 10, z: 0))
+//        particles.append(particle)
+//        let particle1 = Particle(name: "name_1",massm: 1, location: Components(x: -50, y: 0, z: 0), velocity: Components(x: 0, y: -10, z: 0))
+//        particles.append(particle1)
+//        let particle2 = Particle(name: "name_2",massm: 30, location: Components(x: 0, y: 50, z: 0), velocity: Components(x: -50, y: 0, z: 0))
+//        particles.append(particle2)
+//        let particle3 = Particle(name: "name_3",massm: 30, location: Components(x: 0, y: -50, z: 0), velocity: Components(x: 50, y: 0, z: 0))
+//        particles.append(particle3)
     }
     
     
@@ -63,25 +66,7 @@ class Physics{
     /// 记录数据
     func stop(){
     }
-    /// 存储数据
-    func save(to path: URL){
-        let jsonEncoder = JSONEncoder()
-        var allData = Data()
-        for particle in particles{
-            guard let data = try? jsonEncoder.encode(particle.history) else {
-                print("数据转化失败")
-                return
-            }
-            allData.append((particle.name + "\n").data(using: .utf8)! )
-            allData.append(data)
-            allData.append(("\n").data(using: .utf8)!)
-        }
-        guard  let _ = try? allData.write(to: path) else{
-            print("保存失败")
-            return
-        }
-        
-    }
+    
     /// 计算相互作用
     private func interreaction(){
         if(particles.count<2){return}
@@ -104,4 +89,6 @@ class Physics{
             }
         }
     }
+    
+    
 }

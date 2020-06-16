@@ -12,6 +12,7 @@
 		797190D22487E22400389494 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797190D12487E22400389494 /* Assets.xcassets */; };
 		797190D52487E22400389494 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 797190D32487E22400389494 /* Main.storyboard */; };
 		797190DE2487E26A00389494 /* Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797190DD2487E26A00389494 /* Physics.swift */; };
+		797CB24624983A2800DF408D /* FileCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797CB24524983A2800DF408D /* FileCtrl.swift */; };
 		798137DE248FC93A0005A3BC /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798137DD248FC93A0005A3BC /* Protocol.swift */; };
 		79A3DCD124887A220084984D /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A3DCD024887A220084984D /* Particle.swift */; };
 		79A55C8C248915A2007CBF32 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A55C8B248915A2007CBF32 /* MainView.swift */; };
@@ -25,6 +26,7 @@
 		797190D42487E22400389494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		797190D62487E22400389494 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		797190DD2487E26A00389494 /* Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Physics.swift; sourceTree = "<group>"; };
+		797CB24524983A2800DF408D /* FileCtrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCtrl.swift; sourceTree = "<group>"; };
 		798137DD248FC93A0005A3BC /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		79A3DCD024887A220084984D /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		79A55C8B248915A2007CBF32 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -65,14 +67,23 @@
 				797190CD2487E22300389494 /* AppDelegate.swift */,
 				797190CF2487E22300389494 /* ViewController.swift */,
 				79A55C8B248915A2007CBF32 /* MainView.swift */,
+				797CB24524983A2800DF408D /* FileCtrl.swift */,
 				797190D12487E22400389494 /* Assets.xcassets */,
 				797190D32487E22400389494 /* Main.storyboard */,
-				797190DD2487E26A00389494 /* Physics.swift */,
-				79A3DCD024887A220084984D /* Particle.swift */,
+				797CB244249839EC00DF408D /* Physics */,
 				797190D62487E22400389494 /* Info.plist */,
 				79B16E032490E05A00B883C0 /* MacTwoApp.entitlements */,
 			);
 			path = MacTwoApp;
+			sourceTree = "<group>";
+		};
+		797CB244249839EC00DF408D /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				79A3DCD024887A220084984D /* Particle.swift */,
+				797190DD2487E26A00389494 /* Physics.swift */,
+			);
+			path = Physics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +159,7 @@
 				797190D02487E22300389494 /* ViewController.swift in Sources */,
 				79A3DCD124887A220084984D /* Particle.swift in Sources */,
 				797190CE2487E22300389494 /* AppDelegate.swift in Sources */,
+				797CB24624983A2800DF408D /* FileCtrl.swift in Sources */,
 				79A55C8C248915A2007CBF32 /* MainView.swift in Sources */,
 				797190DE2487E26A00389494 /* Physics.swift in Sources */,
 				798137DE248FC93A0005A3BC /* Protocol.swift in Sources */,

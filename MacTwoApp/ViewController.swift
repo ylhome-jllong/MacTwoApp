@@ -15,13 +15,21 @@ class ViewController: NSViewController {
     var timerState = false
     /// 定时器
     private var gcdTimer: DispatchSourceTimer?
-    
+    /// 视图
     @IBOutlet var mainView: MainView!
+    /// 文档控制
+    private let fileCtrl = FileCtrl()
+    
+    
+    
+    
+    
     let physics = Physics()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         mainView.physics = self.physics
+        fileCtrl.physics = self.physics
         //mainView.image = NSImage(size: NSMakeSize(mainView.bounds.width, mainView.bounds.height))
     }
 
@@ -39,7 +47,7 @@ class ViewController: NSViewController {
         }
         
         physics.delegate = self
-        physics.setParameter()
+        //physics.setParameter()
         physics.run()
 
         mainView.drawNewAllImage()
@@ -55,7 +63,25 @@ class ViewController: NSViewController {
         
         savePanel.begin { (ret) in
             if(ret == NSApplication.ModalResponse.OK){
-                self.physics.save(to: savePanel.url!)
+                self.fileCtrl.save(to: savePanel.url!)
+            }
+        }
+        
+    }
+    @IBAction func OnOpen(_ sender: Any){
+        let openPanel = NSOpenPanel()
+        openPanel.title = "打开环境初始条件设置文件"
+        openPanel.allowedFileTypes = ["txt","rtf"]
+        // 可以选择文件
+        openPanel.canChooseFiles = true
+        // 不可以选择文件夹
+        openPanel.canChooseDirectories = false
+        // 可以多选
+        openPanel.allowsMultipleSelection = false
+        openPanel.begin { (ret) in
+            if(ret == NSApplication.ModalResponse.OK){
+                let l = self.fileCtrl.openParameterFile(path:openPanel.url!)
+                self.physics.setParameter(l!)
             }
         }
         
