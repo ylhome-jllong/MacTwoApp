@@ -24,8 +24,8 @@ class Physics{
     /// 委托代理
     var delegate: NotifyProtocol?
     
-    let gcdQueue = DispatchQueue.init(label: "演进列队")
-    
+    private let gcdQueue = DispatchQueue.init(label: "演进列队")
+    private var workItem: DispatchWorkItem?
     
     
     /// 设置各物理参数
@@ -47,19 +47,24 @@ class Physics{
     }
     
     
+    
+    
     /// 开始运行（异步运行）
     func run(){
-        gcdQueue.async {
-            for _ in 0...100{
-                self.interreaction()
-                for particle in self.particles{
-                    particle.evolution(step: 0.1)
+        if (workItem == nil) {
+            workItem = DispatchWorkItem {
+                for _ in 0...100{
+                    self.interreaction()
+                    for particle in self.particles{
+                        particle.evolution(step: 0.1)
+                    }
                 }
             }
-            DispatchQueue.main.async {
-                self.delegate?.complete()
+            workItem!.notify(queue:DispatchQueue.main) {
+                  self.delegate?.complete()
             }
         }
+        gcdQueue.async(execute: workItem!)
         
     }
     
